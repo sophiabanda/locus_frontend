@@ -7,16 +7,23 @@ export default class Home extends React.Component {
   
     render (){
       return (
-       <div >
+      <div>
+         < Burger />
           <header className="header-back">
-            < Burger />
+            <div>
             <h1 id="title">In Between</h1>
+            </div>
           </header>
         <div id="main-back">
+          <div className="home-search-div">
           < Search />
+          < Search />
+          <button type="submit" className="home-button">Let's Go</button>
+          </div>
         </div>
+      </div>
         
-        </div>
+    
      )
   }
 }

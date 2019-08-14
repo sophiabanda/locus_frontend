@@ -7,12 +7,12 @@ export default function Search() {
   return (
     <Form>
       <FormGroup>
-        <label htmlFor="#username">Username</label>
-        <FormInput id="#username" placeholder="Username" />
+        <label htmlFor="#Address">Address: </label>
+        <FormInput id="#Address" placeholder="Address" />
       </FormGroup>
       <FormGroup>
-        <label htmlFor="#password">Password</label>
-        <FormInput type="password" id="#password" placeholder="Password" />
+        <label htmlFor="#City">City: </label>
+        <FormInput type="City" id="#City" placeholder="City" />
       </FormGroup>
     </Form>
   );
