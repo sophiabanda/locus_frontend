@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import mapboxgl from 'mapbox-gl'
+import businesses from ''
 
 class Map extends Component {
   state = { locations: [] }
