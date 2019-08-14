@@ -4,7 +4,7 @@
   width: 36px;
   height: 30px;
   right: 36px;
-  top: 36px;
+  top: 25px;
 }
 
 .right .bm-burger-button {
@@ -26,6 +26,7 @@
 .bm-cross-button {
   height: 33px;
   width: 35px;
+  transform: scale(1.5);
 }
 
 /* Color/shape of close button cross */
@@ -75,20 +76,33 @@ Note: Beware of modifying this element as it can break the animations - you shou
   font-size: 2.5rem;
   margin: 1rem;
   color: #F285BC;
-  -webkit-text-stroke: .5px black;
-	-webkit-text-fill-color: #F285BC;
-  /* text-shadow:
-		-.5px -.5px 0 #000,
-		.5px -.5px 0 #000,
-		-.5px .5px 0 #000,
-    .5px .5px 0 #000; */
-  font-weight: bold;
+  font-weight: 950;
   outline: none;
 }
 
+.menu-item {
+  display: inline-block;
+  color: #F285BC;
+  text-decoration: none;
+}
+
+.menu-item::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #000;
+  transition: width .3s;
+}
+
+.menu-item:hover::after {
+  width: 100%;
+}
+
 .menu-item:hover {
-  transform: scale(1.1);
-  transition: .1s;
+  -webkit-text-stroke: .3px white;
+  -webkit-text-fill-color: #F285BC;
+  text-decoration: none;
 }
 
 html {

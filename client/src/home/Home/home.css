@@ -1,0 +1,21 @@
+.header-back {
+  background-color: white;
+  background-size: cover;
+  height: 5rem;
+}
+
+#title{
+  font-family: 'Poiret One', cursive;
+  padding-top: 15px;
+  padding-left: 10px;
+  -webkit-text-stroke: .3px #99C8CD;
+  -webkit-text-fill-color: #F285BC;
+  font-weight: 900;
+}
+
+#main-back {
+  background-color: #E3916B;
+  height: 100vh;
+}
+
+
