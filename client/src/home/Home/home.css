@@ -8,8 +8,8 @@
   font-family: 'Poiret One', cursive;
   padding-top: 15px;
   padding-left: 10px;
-  -webkit-text-stroke: .3px #99C8CD;
-  -webkit-text-fill-color: #F285BC;
+  -webkit-text-stroke: 2px #99C8CD;
+  -webkit-text-fill-color: #21ADA8;
   font-weight: 900;
 }
 
@@ -20,7 +20,7 @@
 
 
 #main-back {
-  background-color: #E3916B;
+  background-color: #F9AC8B;
   height: 100vh;
   width: 100vw;
   position: fixed;
@@ -29,11 +29,12 @@
 .home-button {
   border: 1px white solid;
   background-color: transparent;
-  background:  #F285BC;
-  -webkit-text-stroke: .3px #99C8CD;
-  -webkit-text-fill-color: white;
+  background:  #99C8CD;
+  -webkit-text-stroke: .1px  #21ADA8;
+  -webkit-text-fill-color:  rgb(247, 254, 255);
   font-weight: 900;
   outline: none;
+  font-family: 'Poiret One', cursive;
 }
 
 
