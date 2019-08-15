@@ -1,0 +1,40 @@
+.header-back {
+  background-color: white;
+  background-size: cover;
+  height: 5rem;
+}
+
+#title{
+  font-family: 'Poiret One', cursive;
+  padding-top: 15px;
+  padding-left: 10px;
+  -webkit-text-stroke: .3px #99C8CD;
+  -webkit-text-fill-color: #F285BC;
+  font-weight: 900;
+}
+
+/* Body of home page */
+.home-search-div {
+  margin:24px 35px auto 35px;
+}
+
+
+#main-back {
+  background-color: #E3916B;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+}
+
+.home-button {
+  border: 1px white solid;
+  background-color: transparent;
+  background:  #F285BC;
+  -webkit-text-stroke: .3px #99C8CD;
+  -webkit-text-fill-color: white;
+  font-weight: 900;
+  outline: none;
+}
+
+
+
