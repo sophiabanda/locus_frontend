@@ -3,9 +3,13 @@ import './App.css'
 import Burger from './home/burger/burger'
 import Map from './Map/Map.component.jsx'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import dotenv from 'dotenv'
+
 
 class App extends React.Component {
-
+  componentDidMount(){
+    dotenv.config()
+  }
   render(){
     return (
       <BrowserRouter>

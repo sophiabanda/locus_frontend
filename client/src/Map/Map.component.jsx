@@ -11,19 +11,37 @@ export default class Map extends Component {
 
   componentDidMount() {
     // this.fetchLocations() // on component mount, we grab the locations from the yelp api
-    console.log('foo', this.state.businesses[0]);
+    // console.log(this.state.businesses[0]);
     this.initializeMap()
   }
-  initializeMap = async() => {
-    mapboxgl.accessToken = process.env.MAPBOX_TOKEN
+  initializeMap = () => {
+    mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
     const mapOptions = {
       container: this.mapContainer,
       style: 'mapbox://styles/mapbox/streets-v9',
       zoom: 12,
       center: ['-80.123168', '26.224963']
     }
-    this.createMap(mapOptions)
+    this.map = new mapboxgl.Map(mapOptions);
+    console.log(`%c ${this.map}`, 'border: red .1rem solid;')
   }
+  
+  // map.on('load', function(e) {
+  //   // Add the data to your map as a layer
+  //   map.addLayer({
+  //     id: 'locations',
+  //     type: 'symbol',
+  //     // Add a GeoJSON source containing place coordinates and information.
+  //     source: {
+  //       type: 'geojson',
+  //       data: stores
+  //     },
+  //     layout: {
+  //       'icon-image': 'restaurant-15',
+  //       'icon-allow-overlap': true,
+  //     }
+  //   });
+  // });
   
   // fetchLocations = async () => { //asynchrnous function
   //   try { 
@@ -36,35 +54,35 @@ export default class Map extends Component {
   // }
 
   render() {
-    console.log(sampleMapData.businesses)
-    return ( <div id="map" />
-    )
-  }
-  createMap = (mapOptions, positionOptions) => {
-    this.map = new MapBox()
-    const map = this.map 
-    const { locations } = this.state;
-    map.on('load', () => { 
-      map.addSource('locations', { type: 'geojson', data: businesses }) 
-      map.addLayer({ 
-        id: 'businesses',
-        type: 'symbol', 
-        source: 'businesses',
-        layout: {
-          'icon-image': 'restaurant-15', 
-          'icon-size': 1.5,
-          'icon-allow-overlap': true 
-        }
-      })
-      map.on('click', 'locations', this.handleLocationClick) 
-    })
-  }
+    console.log(businesses.length)
+    return <div id="map" ref={element => this.mapContainer = element} />
   
-  handleLocationClick = event => { 
-    const { properties, geometry = {} } = event.features[0]
-    new Popup() 
-      .setLngLat(geometry.coordinates) 
-      .setHTML('<div>${properties.name}</div>') 
-      .addTo(this.map) 
   }
+  // createMap = () => {
+  //   this.map = new MapBox(document.getElementById('map'))
+  //   const map = this.map 
+  //   const { businesses } = this.state;
+  //   map.on('load', () => { 
+  //     map.addSource('locations', { type: 'geojson', data: businesses }) 
+  //     map.addLayer({ 
+  //       id: 'businesses',
+  //       type: 'symbol', 
+  //       source: 'businesses',
+  //       layout: {
+  //         'icon-image': 'restaurant-15', 
+  //         'icon-size': 1.5,
+  //         'icon-allow-overlap': true 
+  //       }
+  //     })
+  //     // map.on('click', 'locations', this.handleLocationClick) 
+  //   })
+  // }
+  
+  // handleLocationClick = event => { 
+  //   const { properties, geometry = {} } = event.features[0]
+  //   new Popup() 
+  //     .setLngLat(geometry.coordinates) 
+  //     .setHTML('<div>${properties.name}</div>') 
+  //     .addTo(this.map) 
+  // }
 }
