@@ -4,9 +4,9 @@ import Burger from "./home/burger/burger";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import axios from "axios";
 
-const HOST = "localhost", // TODO Deploy back and and code it here.
-  PORT = 3000, //This will be 443
-  URL = `http://${HOST}:${PORT}`,
+const HOST = "ib.apps.selfip.com", // TODO Deploy back and and code it here.
+  PORT = 443, //This will be 443
+  URL = `https://${HOST}:${PORT}`,
   [PING, AUTHENTICATE] = ["ping", "authenticate"].map(item => `${URL}/${item}`),
   CREDENTIALS = { mobile: "5555555555", password: "asdfasdf" }, //These would come from a login form if there were one
   TOKEN = "TOKEN",
@@ -17,6 +17,7 @@ class App extends React.Component {
     finished: false
   };
   componentDidMount() {
+    console.table({ HOST, URL });
     function setToken() {
       axios
         .get(PING, {
