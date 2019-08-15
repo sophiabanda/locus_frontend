@@ -4,16 +4,24 @@ import Burger from "./home/burger/burger";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import axios from "axios";
 
-const HOST = "localhost", // TODO Calculate host.
-  URL = `http://${HOST}:3000`,
+const HOST = "localhost", // TODO Deploy back and and code it here.
+  PORT = 3000, //This will be 443
+  URL = `http://${HOST}:${PORT}`,
   [PING, AUTHENTICATE] = ["ping", "authenticate"].map(item => `${URL}/${item}`),
-  CREDENTIALS = { mobile: "5555555555", password: "asdfasdf" };
+  CREDENTIALS = { mobile: "5555555555", password: "asdfasdf" }, //These would come from a login form if there were one
+  TOKEN = "TOKEN",
+  WAIT = 500;
 
 class App extends React.Component {
+  state = {
+    finished: false
+  };
   componentDidMount() {
     function setToken() {
       axios
-        .get(PING, { headers: { Authorization: window.TOKEN } })
+        .get(PING, {
+          headers: { Authorization: sessionStorage.getItem(TOKEN) }
+        })
         .then(({ data }) => {
           console.log("Token is valid.");
         })
@@ -23,7 +31,7 @@ class App extends React.Component {
             .post(AUTHENTICATE, CREDENTIALS)
             .then(({ data }) => {
               console.log({ data });
-              window.TOKEN = data.auth_token;
+              sessionStorage.setItem(TOKEN, data.auth_token);
             })
             .catch(e => {
               console.error(e.message);
@@ -31,16 +39,24 @@ class App extends React.Component {
         });
     }
     let attempts = 0;
-    const WAIT = 500;
     const interval = setInterval(() => {
-      console.log({ interval: window.TOKEN != null });
-      if (attempts === 5 || window.TOKEN != null) {
+      const token = sessionStorage.getItem(TOKEN);
+      console.log({ token });
+      if (attempts === 5 || token != null) {
+        this.setState({ finished: true });
         clearInterval(interval);
       } else {
+        this.setState({ finished: false });
         setToken();
       }
       attempts += 1;
     }, WAIT);
+  }
+  loading() {
+    return <h1>Loading.</h1>;
+  }
+  loaded() {
+    return <h1>Loaded.</h1>;
   }
   render() {
     return (
@@ -50,7 +66,7 @@ class App extends React.Component {
             <Route exact path="/" component={Burger} />
           </Switch>
         </BrowserRouter>
-        <h1>Hello</h1>
+        {this.state.finished ? this.loaded() : this.loading()}
       </>
     );
   }
