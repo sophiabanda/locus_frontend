@@ -4,10 +4,13 @@ import Home from './home/Home/home';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import axios from "axios";
 
-const HOST = "localhost", // TODO Deploy back and and code it here.
-  PORT = 4000, //This will be 443
-  URL = `http://${HOST}:${PORT}`,
-  [PING, AUTHENTICATE] = ["ping", "authenticate"].map(item => `${URL}/${item}`),
+const HOST = "ib.apps.selfip.com" && "localhost", // TODO Deploy back and and code it here.
+  PORT = 443 && 3000, //This will be 443
+  SCHEME = "https" && "http",
+  URL = `${SCHEME}://${HOST}:${PORT}`,
+  [PING, AUTHENTICATE, YELP] = ["ping", "authenticate", "places_choices"].map(
+    item => `${URL}/${item}`
+  ),
   CREDENTIALS = { mobile: "5555555555", password: "asdfasdf" }, //These would come from a login form if there were one
   TOKEN = "TOKEN",
   WAIT = 500;
@@ -17,6 +20,7 @@ class App extends React.Component {
     finished: false
   };
   componentDidMount() {
+    console.table({ HOST, URL });
     function setToken() {
       axios
         .get(PING, {
@@ -44,6 +48,23 @@ class App extends React.Component {
       console.log({ token });
       if (attempts === 5 || token != null) {
         this.setState({ finished: true });
+        axios
+          .get(YELP, {
+            params: {
+              lat: 26.224963,
+              lon: -80.123168,
+              limit: 10
+            },
+            headers: { Authorization: sessionStorage.getItem(TOKEN) }
+          })
+          .then(({ data }) => {
+            //try hitting yelp endpoint
+            console.log(
+              `%c ${JSON.stringify(data, null, 2)}`,
+              "border: blue .1rem solid; font-size: 1rem;"
+            );
+          })
+          .catch(e => console.error(e));
         clearInterval(interval);
       } else {
         this.setState({ finished: false });
