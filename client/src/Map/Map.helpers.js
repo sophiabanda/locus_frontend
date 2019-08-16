@@ -1,3 +1,6 @@
+import mapMarker from '../../public/map_marker.png';
+
+
 export const parseGeoJson = (data = []) => { //this is your geojson parser, I tailored it to match how yelp's api data structure
   if (!data.length) return [];
   const features = data.map(item => ({
@@ -11,9 +14,7 @@ export const parseGeoJson = (data = []) => { //this is your geojson parser, I ta
   return { type: 'FeatureCollection', features }
 }
 
-
 export const flyToProps = { speed: 0.3, zoom: 14, bearing: 20, pitch: 20 };
-
 
 export const popupRenderer = (props = {}) => `
   <div className="popup">
@@ -21,9 +22,19 @@ export const popupRenderer = (props = {}) => `
   </div>
 `;
 
-
 export const geolocationOptions = {
   enableHighAccuracy: true,
   maximumAge: 10000,
   timeout: 10000
 };
+
+export const markerLayer = {
+  id: 'marker',
+  type: 'symbol',
+  source: 'marker',
+  layout: {
+    'icon-image': 'mapMarker'
+  }
+};
+
+export const LAYERS = ['marker'];

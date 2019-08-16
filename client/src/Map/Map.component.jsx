@@ -3,9 +3,9 @@ import mapboxgl, { Map as MapBox, Popup, GeolocateControl } from 'mapbox-gl'
 import axios from 'axios'
 import './Map.styles.css'
 import { sampleMapData } from './mapData';
-import { parseGeoJson, flyToProps, popupRenderer, geolocationOptions } from './Map.helpers';
+import { parseGeoJson, flyToProps, popupRenderer, geolocationOptions, markerLayer } from './Map.helpers';
 import VenueList from '../VenueList/VeneueList.component';
-// import Pikachu from './public/map_marker.png)';
+import mapMarker from '../../public/map_marker.png';
 
 const businesses = sampleMapData.businesses;
 
