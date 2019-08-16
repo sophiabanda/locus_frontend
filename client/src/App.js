@@ -1,8 +1,10 @@
 import React from "react";
 import "./App.css";
 import Home from './home/Home/home';
+import Map from './Map/Map.component.jsx';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import axios from "axios";
+import dotenv from 'dotenv';
 
 const HOST = "ib.apps.selfip.com" && "localhost", // TODO Deploy back and and code it here.
   PORT = 443 && 3000, //This will be 443
@@ -20,6 +22,7 @@ class App extends React.Component {
     finished: false
   };
   componentDidMount() {
+    dotenv.config();
     console.table({ HOST, URL });
     function setToken() {
       axios
@@ -85,6 +88,7 @@ class App extends React.Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/" component={Map}/>
           </Switch>
         </BrowserRouter>
  
