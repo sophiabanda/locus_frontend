@@ -1,4 +1,4 @@
-import mapMarker from '../../public/map_marker.png';
+import mapMarker from '../images/map_marker.png';
 
 
 export const parseGeoJson = (data = []) => { //this is your geojson parser, I tailored it to match how yelp's api data structure
@@ -28,13 +28,11 @@ export const geolocationOptions = {
   timeout: 10000
 };
 
-export const markerLayer = {
+export const markerLayer   = {
   id: 'marker',
   type: 'symbol',
   source: 'marker',
   layout: {
-    'icon-image': 'mapMarker'
+    'icon-image': { mapMarker }
   }
 };
-
-export const LAYERS = ['marker'];

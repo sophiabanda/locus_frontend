@@ -5,7 +5,7 @@ import './Map.styles.css'
 import { sampleMapData } from './mapData';
 import { parseGeoJson, flyToProps, popupRenderer, geolocationOptions, markerLayer } from './Map.helpers';
 import VenueList from '../VenueList/VeneueList.component';
-import mapMarker from '../../public/map_marker.png';
+import mapMarker from '../images/map_marker.png'
 
 const businesses = sampleMapData.businesses;
 
@@ -41,9 +41,10 @@ export default class Map extends Component {
     this.createMap(mapOptions)
   }
 
-  createMap = mapOptions => {
+  createMap = (mapOptions, markerLayer) => {
     this.map = new MapBox(mapOptions) // creating a new map
-    const map = this.map 
+    const map = this.map
+    map.loadImage(mapMarker, (error, pika) => !error && map.addImage('map_marker', pika));
     map.addControl(new GeolocateControl({ positionOptions: geolocationOptions, trackUserLocation: true }));
     const { businesses } = this.state; //grabbing location from state
     map.on('load', () => { // this is important, we are "hooking" onto the map when it loads, similar to lifecycle methods in react, this is a lifecycle of mapbox. When it loads, we will run this function
@@ -53,11 +54,12 @@ export default class Map extends Component {
         type: 'symbol', // allow you to use images for your markers
         source: 'businesses', // state which source to pull data from
         layout: {
-          'icon-image': 'restaurant-15', //placeholder image
+          'icon-image': 'embassy-11', //placeholder image
           'icon-size': 1.5,
           'icon-allow-overlap': true // important for markers close together
         }
       })
+      console.log(`%c ${mapMarker}`, 'border: red .1rem solid;')
       this.geocoder = document.querySelector('.mapboxgl-ctrl-geolocate')
       this.geocoder.addEventListener('click', this.handleGeoClick)
       map.on('click', 'businesses', this.handleVenueMarkerClick) //listens to a click on the map, particularly a click on any "location", when clicked, it will call the handleLocationClick function
@@ -68,7 +70,6 @@ export default class Map extends Component {
     const { lat, lng }= this.map.getCenter()
     // this.setState({ currentUserLoc: [lng, lat] }, this.fetchData)
   }
-
 
   handleVenueMarkerClick = e => {
     const { properties, geometry: { coordinates } } = e.features[0]
