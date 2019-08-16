@@ -6,7 +6,7 @@ export const parseGeoJson = (data = []) => { //this is your geojson parser, I ta
       type: 'Point',
       coordinates: [item.coordinates.longitude, item.coordinates.latitude],
     },
-    properties: { ...item },
+    properties: { ...item, address: item.location.display_address.join(', ') },
   }))
   return { type: 'FeatureCollection', features }
 }
@@ -17,6 +17,13 @@ export const flyToProps = { speed: 0.3, zoom: 14, bearing: 20, pitch: 20 };
 
 export const popupRenderer = (props = {}) => `
   <div className="popup">
-    <p>${props.name}</p>
+    <a target="_blank" href='https://www.google.com/maps?q=${props.address}'>${props.name}</a>
   </div>
 `;
+
+
+export const geolocationOptions = {
+  enableHighAccuracy: true,
+  maximumAge: 10000,
+  timeout: 10000
+};

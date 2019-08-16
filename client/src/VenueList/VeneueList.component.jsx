@@ -5,7 +5,7 @@ import './VenueList.styles.css'
 const VenueList = ({ venues = [], handleClick, activeVenueID }) => (
   <div>
     {venues.map(venue => (
-      <div className={classNames({ activeVenue: venue.properties.id === activeVenueID })} key={venue.properties.id} onClick={handleClick(venue)}>
+      <div className={classNames({ activeVenue: activeVenueID === venue.properties.id })} key={venue.properties.id} onClick={handleClick(venue)}>
         name: {venue.properties.name}
       </div>
     ))}
