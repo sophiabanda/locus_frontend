@@ -4,9 +4,19 @@ export const parseGeoJson = (data = []) => { //this is your geojson parser, I ta
     type: 'Feature',
     geometry: {
       type: 'Point',
-      coordindates: [item.coordinates.longitude, item.coordinates.latitude],
+      coordinates: [item.coordinates.longitude, item.coordinates.latitude],
     },
     properties: { ...item },
   }))
   return { type: 'FeatureCollection', features }
 }
+
+
+export const flyToProps = { speed: 0.3, zoom: 14, bearing: 20, pitch: 20 };
+
+
+export const popupRenderer = (props = {}) => `
+  <div className="popup">
+    <p>${props.name}</p>
+  </div>
+`;

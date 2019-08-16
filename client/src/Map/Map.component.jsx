@@ -1,88 +1,84 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import mapboxgl, { Map as MapBox, Popup } from 'mapbox-gl'
+import axios from 'axios'
 import './Map.styles.css'
-import {sampleMapData} from './mapData';
+import { sampleMapData } from './mapData';
+import { parseGeoJson, flyToProps, popupRenderer } from './Map.helpers';
+import VenueList from '../VenueList/VeneueList.component';
 
 const businesses = sampleMapData.businesses;
 
 export default class Map extends Component {
-  state = { businesses }
+  state = { businesses: parseGeoJson(businesses), activeVenueID: '' }
 
-  componentDidMount() {
-    // this.fetchLocations() // on component mount, we grab the locations from the yelp api
-    // console.log(this.state.businesses[0]);
+  componentDidMount() { 
+    // axios.get(`http://localhost:4000/places_choices/?lat=26.224963&lon=-80.123168`, 
+    // { headers: { 'Authorization': "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1N…zMDd9.J-SlI6MnkYz09VyvaubL23_R79agJH7cY7CbvoBwV6E" } })
+    // .then((response) => this.setState({ businesses: parseGeoJson(response.data[0].data.businesses) }));
     this.initializeMap()
   }
+
+  componentWillUnmount() {
+    this.map.remove() // precaution to avoid memory leak ,we remove the map when we navigate away
+  }
+
   initializeMap = () => {
+    const  { longitude, latitude } =  sampleMapData.region.center || {}
     mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
     const mapOptions = {
       container: this.mapContainer,
       style: 'mapbox://styles/mapbox/streets-v9',
       zoom: 12,
-      center: ['-80.123168', '26.224963']
+      center: [longitude, latitude]
     }
-    this.map = new mapboxgl.Map(mapOptions);
-    console.log(`%c ${this.map}`, 'border: red .1rem solid;')
+    this.createMap(mapOptions)
   }
-  
-  // map.on('load', function(e) {
-  //   // Add the data to your map as a layer
-  //   map.addLayer({
-  //     id: 'locations',
-  //     type: 'symbol',
-  //     // Add a GeoJSON source containing place coordinates and information.
-  //     source: {
-  //       type: 'geojson',
-  //       data: stores
-  //     },
-  //     layout: {
-  //       'icon-image': 'restaurant-15',
-  //       'icon-allow-overlap': true,
-  //     }
-  //   });
-  // });
-  
-  // fetchLocations = async () => { //asynchrnous function
-  //   try { 
-  //     // const response = await axios.get(YELP_URL) 
-  //     this.setState({ locations: parseGeoJson(response.data.businesses) }) 
-  //   }
-  //   catch (error) {
-  //     console.log('failed to get data from yelp', error) 
-  //   }
-  // }
+
+  createMap = mapOptions => {
+    this.map = new MapBox(mapOptions) // creating a new map
+    const map = this.map 
+    const { businesses } = this.state; //grabbing location from state
+    map.on('load', () => { // this is important, we are "hooking" onto the map when it loads, similar to lifecycle methods in react, this is a lifecycle of mapbox. When it loads, we will run this function
+      map.addSource('businesses', { type: 'geojson', data : businesses }) // we are adding a "source", the first argument is a string for the source id, the second argument is an object for the source "data" ,we have to tell it what type of data as well, in our case we're using geojson
+      map.addLayer({ // adding a layer, the id should match the source's id by convention
+        id: 'businesses',
+        type: 'symbol', // allow you to use images for your markers
+        source: 'businesses', // state which source to pull data from
+        layout: {
+          'icon-image': 'restaurant-15', //placeholder image
+          'icon-size': 1.5,
+          'icon-allow-overlap': true // important for markers close together
+        }
+      })
+      map.on('click', 'businesses', this.handleVenueMarkerClick) //listens to a click on the map, particularly a click on any "location", when clicked, it will call the handleLocationClick function
+    })
+  }
+
+  handleVenueMarkerClick = e => {
+    const { properties, geometry: { coordinates } } = e.features[0]
+    this.map.flyTo({ center: coordinates, ...flyToProps })
+    new mapboxgl.Popup()
+    .setLngLat(coordinates)
+    .setHTML(popupRenderer(properties))
+    .addTo(this.map);
+    this.setState({ activeVenueID: properties.id })
+  }
+
+  handleVenueClick = venue => () => {
+    const { geometry: { coordinates }, properties } = venue;
+    this.map.flyTo({ center: coordinates, ...flyToProps })
+    this.setState({ activeVenueID: properties.id })
+  }
 
   render() {
-    console.log(businesses.length)
-    return <div id="map" ref={element => this.mapContainer = element} />
-  
+    const { businesses, activeVenueID } = this.state;
+    return (
+      <div>
+         <div id="map" ref={element => this.mapContainer = element} />
+         <VenueList venues={businesses.features} handleClick={this.handleVenueClick} activeVenueID={activeVenueID}  />
+      </div>
+    )
   }
-  // createMap = () => {
-  //   this.map = new MapBox(document.getElementById('map'))
-  //   const map = this.map 
-  //   const { businesses } = this.state;
-  //   map.on('load', () => { 
-  //     map.addSource('locations', { type: 'geojson', data: businesses }) 
-  //     map.addLayer({ 
-  //       id: 'businesses',
-  //       type: 'symbol', 
-  //       source: 'businesses',
-  //       layout: {
-  //         'icon-image': 'restaurant-15', 
-  //         'icon-size': 1.5,
-  //         'icon-allow-overlap': true 
-  //       }
-  //     })
-  //     // map.on('click', 'locations', this.handleLocationClick) 
-  //   })
-  // }
-  
-  // handleLocationClick = event => { 
-  //   const { properties, geometry = {} } = event.features[0]
-  //   new Popup() 
-  //     .setLngLat(geometry.coordinates) 
-  //     .setHTML('<div>${properties.name}</div>') 
-  //     .addTo(this.map) 
-  // }
+
+ 
 }
