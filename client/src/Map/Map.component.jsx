@@ -5,6 +5,7 @@ import './Map.styles.css'
 import { sampleMapData } from './mapData';
 import { parseGeoJson, flyToProps, popupRenderer, geolocationOptions } from './Map.helpers';
 import VenueList from '../VenueList/VeneueList.component';
+// import Pikachu from './public/map_marker.png)';
 
 const businesses = sampleMapData.businesses;
 
