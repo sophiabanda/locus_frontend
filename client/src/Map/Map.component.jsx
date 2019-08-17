@@ -3,7 +3,7 @@ import mapboxgl, { Map as MapBox, Popup, GeolocateControl } from 'mapbox-gl'
 import axios from 'axios'
 import './Map.styles.css'
 import { sampleMapData } from './mapData';
-import { parseGeoJson, flyToProps, popupRenderer, geolocationOptions, markerLayer } from './Map.helpers';
+import { parseGeoJson, flyToProps, popupRenderer, geolocationOptions } from './Map.helpers';
 import VenueList from '../VenueList/VeneueList.component';
 import mapMarker from '../images/map_marker.png'
 
@@ -13,7 +13,7 @@ export default class Map extends Component {
   state = { businesses: parseGeoJson(businesses), activeVenueID: '', currentUserLoc: { lat: this.props.initialLat, lng: this.props.initialLng } }
 
   componentDidMount() { 
-    // this.fetchData();
+    this.fetchData();
     this.initializeMap()
   }
 
@@ -25,7 +25,7 @@ export default class Map extends Component {
     const { currentUserLoc } = this.state;
     const { lat, lng } = currentUserLoc
     axios.get(`http://localhost:4000/places_choices/?lat=${lat}&lon=-${lng}`, 
-    { headers: { 'Authorization': "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1N…zMDd9.J-SlI6MnkYz09VyvaubL23_R79agJH7cY7CbvoBwV6E" } })
+    { headers: { 'Authorization': sessionStorage.getItem('TOKEN') } })
     .then((response) => this.setState({ businesses: parseGeoJson(response.data[0].data.businesses) }));
   }
 
@@ -44,7 +44,6 @@ export default class Map extends Component {
   createMap = (mapOptions, markerLayer) => {
     this.map = new MapBox(mapOptions) // creating a new map
     const map = this.map
-    map.loadImage(mapMarker, (error, pika) => !error && map.addImage('map_marker', pika));
     map.addControl(new GeolocateControl({ positionOptions: geolocationOptions, trackUserLocation: true }));
     const { businesses } = this.state; //grabbing location from state
     map.on('load', () => { // this is important, we are "hooking" onto the map when it loads, similar to lifecycle methods in react, this is a lifecycle of mapbox. When it loads, we will run this function
@@ -66,10 +65,10 @@ export default class Map extends Component {
     })
   }
 
-  handleGeoClick = () => {
-    const { lat, lng }= this.map.getCenter()
-    // this.setState({ currentUserLoc: [lng, lat] }, this.fetchData)
-  }
+  // handleGeoClick = () => {
+  //   const { lat, lng }= this.map.getCenter()
+  //   this.setState({ currentUserLoc: [lng, lat] }, this.fetchData)
+  // }
 
   handleVenueMarkerClick = e => {
     const { properties, geometry: { coordinates } } = e.features[0]

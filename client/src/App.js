@@ -1,16 +1,16 @@
 import React from "react";
 import "./App.css";
 import Home from './home/Home/home';
-import Map from './Map/Map.component.jsx';
+import Map from './Map/Map.component';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import axios from "axios";
 import dotenv from 'dotenv';
 
 const HOST = "ib.apps.selfip.com" && "localhost", // TODO Deploy back and and code it here.
-  PORT = 443 && 3000, //This will be 443
+  PORT = 4000, //This will be 443
   SCHEME = "https" && "http",
   URL = `${SCHEME}://${HOST}:${PORT}`,
-  [PING, AUTHENTICATE, YELP] = ["ping", "authenticate", "places_choices"].map(
+  [PING, AUTHENTICATE] = ["ping", "authenticate"].map(
     item => `${URL}/${item}`
   ),
   CREDENTIALS = { mobile: "5555555555", password: "asdfasdf" }, //These would come from a login form if there were one
@@ -51,23 +51,6 @@ class App extends React.Component {
       console.log({ token });
       if (attempts === 5 || token != null) {
         this.setState({ finished: true });
-        axios
-          .get(YELP, {
-            params: {
-              lat: 26.224963,
-              lon: -80.123168,
-              limit: 10
-            },
-            headers: { Authorization: sessionStorage.getItem(TOKEN) }
-          })
-          .then(({ data }) => {
-            //try hitting yelp endpoint
-            console.log(
-              `%c ${JSON.stringify(data, null, 2)}`,
-              "border: blue .1rem solid; font-size: 1rem;"
-            );
-          })
-          .catch(e => console.error(e));
         clearInterval(interval);
       } else {
         this.setState({ finished: false });
@@ -88,7 +71,7 @@ class App extends React.Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/" component={Map}/>
+            <Route exact path="/Map" component={Map}/>
           </Switch>
         </BrowserRouter>
  
