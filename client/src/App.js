@@ -3,6 +3,7 @@ import "./App.css";
 import Home from './home/Home/home';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import axios from "axios";
+import About from './home/About/about'
 
 const HOST = "in-between-back-end.herokuapp.com", // TODO Deploy back and and code it here.
   PORT = 443 && 3000, //This will be 443
@@ -67,6 +68,8 @@ class App extends React.Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={Home} />
+            {/* <Route exact path="/maps" component={Maps} /> */}
+            <Route path="/about" component={About} />
           </Switch>
         </BrowserRouter>
  
