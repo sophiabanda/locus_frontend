@@ -3,17 +3,20 @@ import mapboxgl, { Map as MapBox, Popup, GeolocateControl } from 'mapbox-gl'
 import axios from 'axios'
 import './Map.styles.css'
 import { sampleMapData } from './mapData';
-import { parseGeoJson, flyToProps, popupRenderer, geolocationOptions } from './Map.helpers';
+import { parseGeoJson, flyToProps, popupRenderer, geolocationOptions, markerLayer } from './Map.helpers';
 import VenueList from '../VenueList/VeneueList.component';
 import mapMarker from '../images/map_marker.png'
 
-const businesses = sampleMapData.businesses;
 
 export default class Map extends Component {
-  state = { businesses: parseGeoJson(businesses), activeVenueID: '', currentUserLoc: { lat: this.props.initialLat, lng: this.props.initialLng } }
+  constructor(props) {
+    super(props)
+    const { data: { businesses = [], region: { center = {} } = {} } } = props
+    this.state = { businesses: parseGeoJson(businesses), activeVenueID: '', currentUserLoc: { lat: center.latitude, lng: center.longitude } }
+  }
 
   componentDidMount() { 
-    this.fetchData();
+    // this.fetchData();
     this.initializeMap()
   }
 
@@ -30,13 +33,14 @@ export default class Map extends Component {
   }
 
   initializeMap = () => {
-    const  { longitude, latitude } =  sampleMapData.region.center || {}
+    const { currentUserLoc: { lat = 0, lng = 0 } } = this.state
+    console.log('what is state', this.state)
     mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
     const mapOptions = {
       container: this.mapContainer,
-      style: 'mapbox://styles/mapbox/streets-v9',
+      style: 'mapbox://styles/wyncodefinalproject/cjze71kdg00k91cqb1xyckcvb',
       zoom: 12,
-      center: [longitude, latitude]
+      center: [lng, lat]
     }
     this.createMap(mapOptions)
   }
@@ -44,6 +48,7 @@ export default class Map extends Component {
   createMap = (mapOptions, markerLayer) => {
     this.map = new MapBox(mapOptions) // creating a new map
     const map = this.map
+    map.loadImage(mapMarker, (error, img) => !error && map.addImage('map_marker', img));
     map.addControl(new GeolocateControl({ positionOptions: geolocationOptions, trackUserLocation: true }));
     const { businesses } = this.state; //grabbing location from state
     map.on('load', () => { // this is important, we are "hooking" onto the map when it loads, similar to lifecycle methods in react, this is a lifecycle of mapbox. When it loads, we will run this function
@@ -53,8 +58,8 @@ export default class Map extends Component {
         type: 'symbol', // allow you to use images for your markers
         source: 'businesses', // state which source to pull data from
         layout: {
-          'icon-image': 'embassy-11', //placeholder image
-          'icon-size': 1.5,
+          'icon-image': 'map_marker', //placeholder image
+          'icon-size': 0.1,
           'icon-allow-overlap': true // important for markers close together
         }
       })
@@ -65,10 +70,10 @@ export default class Map extends Component {
     })
   }
 
-  // handleGeoClick = () => {
-  //   const { lat, lng }= this.map.getCenter()
-  //   this.setState({ currentUserLoc: [lng, lat] }, this.fetchData)
-  // }
+  handleGeoClick = () => {
+    const { lat, lng }= this.map.getCenter()
+    // this.setState({ currentUserLoc: [lng, lat] }, this.fetchData)
+  }
 
   handleVenueMarkerClick = e => {
     const { properties, geometry: { coordinates } } = e.features[0]
@@ -91,10 +96,10 @@ export default class Map extends Component {
     return (
       <div>
          <div id="map" ref={element => this.mapContainer = element} />
-         <VenueList venues={businesses.features} handleClick={this.handleVenueClick} activeVenueID={activeVenueID}  />
+         {/* <VenueList venues={businesses.features} handleClick={this.handleVenueClick} activeVenueID={activeVenueID}  /> */}
       </div>
     )
   }
 
- 
+
 }

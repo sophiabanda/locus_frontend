@@ -1,22 +1,23 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import Burger from '../Burger/burger'
 import Search from '../Search/search'
 import APICall from '../../utility/APIcall'
 import './home.css'
 
-export default class Home extends React.Component {
+class Home extends React.Component {
+  state = { address1: '', city1: '', address2: '', city2: '' }
 
-  buttonHandler = event => {
-    const address1 = document.querySelector(".address1").value
-    const city1 = document.querySelector(".city1").value
-    const address2 = document.querySelector(".address2").value
-    const city2 = document.querySelector(".city2").value
-    APICall(address1, address2, city1, city2)
-    console.log(address1, city1, address2, city2)
+  handleInputChange = field => event => this.setState({ [field]: event.target.value })
 
+  buttonHandler = () => {
+    const { onSubmit, history } = this.props
+    onSubmit(this.state)
+    history.push('/map')
   }
  
     render (){
+      console.log('home props', this.props)
       return (
       <div>
          < Burger />
@@ -27,7 +28,7 @@ export default class Home extends React.Component {
           </header>
         <div id="main-back">
           <div className="home-search-div">
-          < Search />
+          <Search handleChange={this.handleInputChange} state={this.state} />
           <button onClick={this.buttonHandler} className="home-button">Let's Go</button>
           </div>
         </div>
@@ -37,3 +38,5 @@ export default class Home extends React.Component {
      )
   }
 }
+
+export default withRouter(Home)

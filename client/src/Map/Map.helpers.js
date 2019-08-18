@@ -16,11 +16,22 @@ export const parseGeoJson = (data = []) => { //this is your geojson parser, I ta
 
 export const flyToProps = { speed: 0.3, zoom: 14, bearing: 20, pitch: 20 };
 
-export const popupRenderer = (props = {}) => `
-  <div className="popup">
+export const popupRenderer = (props = {}) => {
+  const { title: category } = (JSON.parse(props.categories) || [])[0] || {}
+  console.log('foo', category)
+  const { price, rating, address, phone, image_url } = props;
+  console.log('props', props)
+  return `
+  <div class="popup">
     <a target="_blank" href='https://www.google.com/maps?q=${props.address}'>${props.name}</a>
+    <p>${category}</p>
+    <p>${price}</p>
+    <p>${rating}</p>
+    <p>${address}</p>
+    <p>${phone}</p>
+    <img class="popup-image" src=${image_url} />
   </div>
-`;
+`}
 
 export const geolocationOptions = {
   enableHighAccuracy: true,

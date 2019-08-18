@@ -5,6 +5,9 @@ import Map from './Map/Map.component';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import axios from "axios";
 import dotenv from 'dotenv';
+import Request from './utility/APIcall'
+
+
 
 const HOST = "ib.apps.selfip.com" && "localhost", // TODO Deploy back and and code it here.
   PORT = 4000, //This will be 443
@@ -18,10 +21,9 @@ const HOST = "ib.apps.selfip.com" && "localhost", // TODO Deploy back and and co
   WAIT = 500;
 
 class App extends React.Component {
-  state = {
-    finished: false
-  };
-  componentDidMount() {
+  state = { businesses: {}, key: 'map-without-data' };
+  componentDidMount() 
+  {
     dotenv.config();
     console.table({ HOST, URL });
     function setToken() {
@@ -59,23 +61,25 @@ class App extends React.Component {
       attempts += 1;
     }, WAIT);
   }
-  loading() {
-    return <h1>Loading.</h1>;
+  
+  fetchData = ({ address1, city1, address2, city2 }) => Request({ address1, city1, address2, city2, setter: this.setData })
+  
+  setData = businesses => {
+    this.setState({ businesses, key: 'map-with-data' })
   }
-  loaded() {
-    return <h1>Loaded.</h1>;
-  }
-  render() {
+
+  render()
+   {
+     const { businesses, key } = this.state
+     console.log('state', businesses)
     return (
       <>
         <BrowserRouter>
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/Map" component={Map}/>
+            <Route exact path="/" render={() => <Home onSubmit={this.fetchData} />}  />
+            <Route exact path="/Map" render={() => <Map key={key} data={businesses} />}/>
           </Switch>
         </BrowserRouter>
- 
-        {this.state.finished ? this.loaded() : this.loading()}
       </>
     );
   }

@@ -1,6 +1,6 @@
 var axios = require('axios');
 
-const APIcall = (address1, address2, city1, city2) => {
+const APIcall = ({ address1, address2, city1, city2, setter }) => {
     console.log(address1, address2, city1, city2)
 var state = 'FL'
     let API_KEY = '41150c82c3014e3a87abb252f65ef0bb'
@@ -43,7 +43,7 @@ axios.all(urls.map(url => axios.get(url)))
             .then(({data}) => {console.log(data.response.midpoint.lat, data.response.midpoint.lon)
                 axios.get(`http://localhost:4000/places_choices/?lat=${data.response.midpoint.lat}&lon=${data.response.midpoint.lon}`, 
                 { headers: { 'Authorization': sessionStorage.getItem('TOKEN') } })
-                    .then((response) => (console.log(response.data[0].data.businesses)));
+                    .then((response) => setter(response.data[0].data))
             })
             .catch(e => console.error(e.message))
     })
