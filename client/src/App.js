@@ -57,10 +57,10 @@ class App extends React.Component {
     }, WAIT);
   }
   loading() {
-    return <h1>Loading.</h1>;
+    return <h1>loading</h1>;
   }
   loaded() {
-    return <h1>Loaded.</h1>;
+    return <h1>loaded</h1>;
   }
   render() {
     return (
@@ -68,12 +68,11 @@ class App extends React.Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={Home} />
-            {/* <Route exact path="/maps" component={Maps} /> */}
             <Route path="/about" component={About} />
           </Switch>
         </BrowserRouter>
  
-        {this.state.finished ? this.loaded() : this.loading()}
+        {/* {this.state.finished ? this.loaded() : this.loading()} */}
       </>
     );
   }

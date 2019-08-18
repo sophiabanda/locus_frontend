@@ -12,7 +12,6 @@ class Burger extends React.Component {
     return (
       <Menu right width={ 230 }>
         <a id="home" className="menu-item" href="/">Home</a>
-        <a id="about" className="menu-item" href="#">Results</a>
         <a id="contact" className="menu-item" href="/about">About</a>
       </Menu>
     );
