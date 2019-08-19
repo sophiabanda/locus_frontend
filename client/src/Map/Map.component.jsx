@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import mapboxgl, { Map as MapBox, Popup, GeolocateControl } from 'mapbox-gl'
+import mapboxgl, { Map as MapBox, Popup } from 'mapbox-gl'
+// import mapboxgl, { Map as MapBox, Popup, GeolocateControl } from 'mapbox-gl'
 import axios from 'axios'
 import './Map.styles.css'
-import { sampleMapData } from './mapData';
-import { parseGeoJson, flyToProps, popupRenderer, geolocationOptions, markerLayer } from './Map.helpers';
-import VenueList from '../VenueList/VeneueList.component';
+import { parseGeoJson, flyToProps, popupRenderer } from './Map.helpers';
+// import { parseGeoJson, flyToProps, popupRenderer, geolocationOptions, markerLayer } from './Map.helpers';
+// import VenueList from '../VenueList/VeneueList.component';
 import mapMarker from '../images/map_marker.png'
 import Burger from '../home/Burger/burger'
 
@@ -92,7 +93,7 @@ export default class Map extends Component {
   }
 
   render() {
-    const { businesses, activeVenueID } = this.state;
+    // const { businesses, activeVenueID } = this.state;
     return (
       <div>
         <Burger />

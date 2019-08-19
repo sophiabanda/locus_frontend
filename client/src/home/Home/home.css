@@ -30,11 +30,12 @@
   border: 1px white solid;
   background-color: transparent;
   background:  #99C8CD;
-  -webkit-text-stroke: .1px  #21ADA8;
-  -webkit-text-fill-color:  rgb(247, 254, 255);
+  /* -webkit-text-stroke: .1px  #21ADA8;
+  -webkit-text-fill-color:  rgb(247, 254, 255); */
   font-weight: 900;
   outline: none;
   font-family: 'Poiret One', cursive;
+  color: white;
 }
 
 

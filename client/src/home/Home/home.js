@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import Burger from '../Burger/burger'
 import Search from '../Search/search'
-import APICall from '../../utility/APIcall'
+// import APICall from '../../utility/APIcall'
 import './home.css'
 
 class Home extends React.Component {

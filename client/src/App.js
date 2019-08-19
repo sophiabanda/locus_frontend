@@ -49,7 +49,6 @@ class App extends React.Component {
     let attempts = 0;
     const interval = setInterval(() => {
       const token = sessionStorage.getItem(TOKEN);
-      console.log({ token });
       if (attempts === 5 || token != null) {
         this.setState({ finished: true });
         clearInterval(interval);
