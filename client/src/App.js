@@ -6,9 +6,9 @@ import axios from "axios";
 import About from './home/About/about'
 
 const HOST = "in-between-back-end.herokuapp.com", // TODO Deploy back and and code it here.
-  PORT = 443 && 3000, //This will be 443
+  // PORT = 443 && 3000, //This will be 443
   SCHEME = "https",
-  URL = `${SCHEME}://${HOST}:${PORT}`,
+  URL = `${SCHEME}://${HOST}`,
   [PING, AUTHENTICATE] = ["ping", "authenticate"].map(
     item => `${URL}/${item}`
   ),

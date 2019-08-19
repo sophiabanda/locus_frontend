@@ -1,16 +1,15 @@
 .baby-got-back {
   background-image: url("colony.png");
-  height: 100vh;
-  width:100%;
   background-repeat: repeat;
   background-attachment: fixed;
-  background-position: center
-}
-
-.why h2{
-  color: teal;
+  background-position: center;
   text-align: center;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  
 }
+ 
 
 .info {
 border-style: solid 2px black;
@@ -18,20 +17,58 @@ border: 2rem;
 padding: 1rem;
 margin-right: 15rem;
 margin-left: 15rem;
+margin-top: 5rem;
+margin-bottom: 15rem;
+text-align: center;
+display: flex;
+flex-direction: column;
+background-color: rgba(255, 255, 255, 0.452);
+} 
+
+.footer:link {
+  color: teal
+}
+.footer:visited {
+  color: teal
+}
+.footer:hover {
+  color: teal
 }
 
-.ch2 {
+.footer {
+  display: flex;
+  justify-content: space-around;
+  background-color: rgba(255, 255, 255, 0.452);
+  align-content: space-around 22px;
   padding: 10px;
-  text-decoration-line: underline;
   text-align: center;
-  border-style: 2px solid black
+  text-decoration: none;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  position: absolute;
+  margin: auto;
 }
 
-.us {
-  color: teal;
-  text-align: center;
-  margin: 0 auto;
-  padding: 0 auto
+@media only screen and (max-width: 414px) {
+  .info{
+    margin-right: 0;
+    margin-left: 0;
+    margin-top: 60;
+    margin-bottom: 0;
+  }
+  .footer{
+    align-items: center
+  }
+  .footer h2{
+    font-size: 16px
+  }
+  .footer a{
+    font-size: 12px
+  }
+  .footer h5{
+    line-height: 11px
+  }
 }
 
 
