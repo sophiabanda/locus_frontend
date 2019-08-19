@@ -22,7 +22,7 @@ margin-bottom: 15rem;
 text-align: center;
 display: flex;
 flex-direction: column;
-background-color: rgba(255, 255, 255, 0.452);
+background-color: rgba(255, 255, 255, 0.830);
 } 
 
 .footer:link {
@@ -38,7 +38,7 @@ background-color: rgba(255, 255, 255, 0.452);
 .footer {
   display: flex;
   justify-content: space-around;
-  background-color: rgba(255, 255, 255, 0.452);
+  background-color: rgba(255, 255, 255, 0.800);
   align-content: space-around 22px;
   padding: 10px;
   text-align: center;
@@ -61,7 +61,9 @@ background-color: rgba(255, 255, 255, 0.452);
     align-items: center
   }
   .footer h2{
-    font-size: 16px
+    font-size: 16px;
+    margin-right: 10px;
+    margin-left: -4px;
   }
   .footer a{
     font-size: 12px
@@ -70,6 +72,3 @@ background-color: rgba(255, 255, 255, 0.452);
     line-height: 11px
   }
 }
-
-
- 
