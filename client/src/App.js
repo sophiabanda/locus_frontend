@@ -6,13 +6,12 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import axios from "axios";
 import dotenv from 'dotenv';
 import Request from './utility/APIcall'
+import About from './home/About/about'
 
-
-
-const HOST = "ib.apps.selfip.com" && "localhost", // TODO Deploy back and and code it here.
-  PORT = 4000, //This will be 443
-  SCHEME = "https" && "http",
-  URL = `${SCHEME}://${HOST}:${PORT}`,
+const HOST = "in-between-back-end.herokuapp.com", // TODO Deploy back and and code it here.
+  // PORT = 443 && 3000, //This will be 443
+  SCHEME = "https",
+  URL = `${SCHEME}://${HOST}`,
   [PING, AUTHENTICATE] = ["ping", "authenticate"].map(
     item => `${URL}/${item}`
   ),
@@ -78,6 +77,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/" render={() => <Home onSubmit={this.fetchData} />}  />
             <Route exact path="/Map" render={() => <Map key={key} data={businesses} />}/>
+            <Route path="/about" component={About} />
           </Switch>
         </BrowserRouter>
       </>

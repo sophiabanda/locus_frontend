@@ -41,7 +41,7 @@ axios.all(urls.map(url => axios.get(url)))
         //nested axios call
         axios.get(`${COORDINATES_TO_MIDPOINT_URL_TEMPLATE}${params}`)
             .then(({data}) => {console.log(data.response.midpoint.lat, data.response.midpoint.lon)
-                axios.get(`http://localhost:4000/places_choices/?lat=${data.response.midpoint.lat}&lon=${data.response.midpoint.lon}`, 
+                axios.get(`https://in-between-back-end.herokuapp.com/places_choices/?lat=${data.response.midpoint.lat}&lon=${data.response.midpoint.lon}`, 
                 { headers: { 'Authorization': sessionStorage.getItem('TOKEN') } })
                     .then((response) => setter(response.data[0].data))
             })
