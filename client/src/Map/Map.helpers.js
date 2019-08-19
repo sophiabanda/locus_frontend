@@ -26,7 +26,7 @@ export const popupRenderer = (props = {}) => {
     <h1 class="card-title">${props.name}</h1>
     <p class="card-items">Category: ${category}</p>
     <p class="card-items">${price}</p>
-    <p class="card-items">${rating} Stars</p>
+    <p class="card-items">${rating} <span id="stars">Stars</span></p>
     <a class="card-items" target="_blank" href='https://www.google.com/maps?q=${props.address}'>${address}</a>
     <p class="card-items"><a href=${phone}> ${phone}</a></p>
     <img class="popup-image" src=${image_url} />

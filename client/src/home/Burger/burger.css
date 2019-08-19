@@ -3,8 +3,8 @@
   position: fixed;
   width: 36px;
   height: 30px;
-  right: 36px;
-  top: 25px;
+  right: 15px;
+  top: 23px;
 }
 
 .right .bm-burger-button {
@@ -15,6 +15,7 @@
 /* Color/shape of burger icon bars */
 .bm-burger-bars {
   background: #373a47;
+  text-decoration: none;
 }
 
 /* Color/shape of burger icon bars on hover*/
@@ -103,6 +104,12 @@ Note: Beware of modifying this element as it can break the animations - you shou
   -webkit-text-stroke: .3px white;
   -webkit-text-fill-color: #F285BC;
   text-decoration: none;
+}
+
+.menu-item:focus, .menu-item:hover {
+  color: #F285BC;
+  text-decoration: none;
+  outline: transparent;
 }
 
 html {

@@ -25,8 +25,13 @@
 
 .card-items {
   margin: 1px;
+  font-size: 1rem;
 }
 
+#stars {
+  color: rgb(209, 181, 21);
+  font-size: 1rem
+}
 /* .marker {
   border: none;
   cursor: pointer;

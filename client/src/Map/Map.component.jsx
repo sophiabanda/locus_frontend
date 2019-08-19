@@ -6,7 +6,7 @@ import { sampleMapData } from './mapData';
 import { parseGeoJson, flyToProps, popupRenderer, geolocationOptions, markerLayer } from './Map.helpers';
 import VenueList from '../VenueList/VeneueList.component';
 import mapMarker from '../images/map_marker.png'
-
+import Burger from '../home/Burger/burger'
 
 export default class Map extends Component {
   constructor(props) {
@@ -49,7 +49,7 @@ export default class Map extends Component {
     this.map = new MapBox(mapOptions) // creating a new map
     const map = this.map
     map.loadImage(mapMarker, (error, img) => !error && map.addImage('map_marker', img));
-    map.addControl(new GeolocateControl({ positionOptions: geolocationOptions, trackUserLocation: true }));
+    // map.addControl(new GeolocateControl({ positionOptions: geolocationOptions, trackUserLocation: true }));
     const { businesses } = this.state; //grabbing location from state
     map.on('load', () => { // this is important, we are "hooking" onto the map when it loads, similar to lifecycle methods in react, this is a lifecycle of mapbox. When it loads, we will run this function
       map.addSource('businesses', { type: 'geojson', data : businesses }) // we are adding a "source", the first argument is a string for the source id, the second argument is an object for the source "data" ,we have to tell it what type of data as well, in our case we're using geojson
@@ -65,15 +65,15 @@ export default class Map extends Component {
       })
       console.log(`%c ${mapMarker}`, 'border: red .1rem solid;')
       this.geocoder = document.querySelector('.mapboxgl-ctrl-geolocate')
-      this.geocoder.addEventListener('click', this.handleGeoClick)
+      // this.geocoder.addEventListener('click', this.handleGeoClick)
       map.on('click', 'businesses', this.handleVenueMarkerClick) //listens to a click on the map, particularly a click on any "location", when clicked, it will call the handleLocationClick function
     })
   }
 
-  handleGeoClick = () => {
-    const { lat, lng }= this.map.getCenter()
-    // this.setState({ currentUserLoc: [lng, lat] }, this.fetchData)
-  }
+  // handleGeoClick = () => {
+  //   const { lat, lng }= this.map.getCenter()
+  //   // this.setState({ currentUserLoc: [lng, lat] }, this.fetchData)
+  // }
 
   handleVenueMarkerClick = e => {
     const { properties, geometry: { coordinates } } = e.features[0]
@@ -95,6 +95,7 @@ export default class Map extends Component {
     const { businesses, activeVenueID } = this.state;
     return (
       <div>
+        <Burger />
          <div id="map" ref={element => this.mapContainer = element} />
          {/* <VenueList venues={businesses.features} handleClick={this.handleVenueClick} activeVenueID={activeVenueID}  /> */}
       </div>

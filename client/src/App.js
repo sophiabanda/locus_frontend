@@ -10,7 +10,7 @@ import Request from './utility/APIcall'
 
 
 const HOST = "ib.apps.selfip.com" && "localhost", // TODO Deploy back and and code it here.
-  PORT = 4000, //This will be 443
+  PORT = '4000', //This will be 443
   SCHEME = "https" && "http",
   URL = `${SCHEME}://${HOST}:${PORT}`,
   [PING, AUTHENTICATE] = ["ping", "authenticate"].map(
